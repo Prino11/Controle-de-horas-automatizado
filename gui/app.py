@@ -1,41 +1,21 @@
+"""Janela principal da conferência."""
+import logging
 import tkinter as tk
-from gui.cartao_view import CartaoView
+from tkinter import ttk
+
+from gui.lote_view import LoteView
 
 
 class AppPonto(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.title("Controle de cartões de ponto · Lotes")
+        self.geometry("1280x800")
+        self.minsize(900, 600)
+        ttk.Style(self).theme_use("clam")
+        LoteView(self).pack(fill="both", expand=True)
 
-        self.title("Sistema de Ponto - Anfora")
-        self.geometry("400x200")
-        self.resizable(False, False)
-
-        self.criar_widgets()
-
-    def criar_widgets(self):
-        titulo = tk.Label(
-            self,
-            text="Sistema de Ponto",
-            font=("Arial", 16, "bold")
-        )
-        titulo.pack(pady=20)
-
-        btn_cartao = tk.Button(
-            self,
-            text="Abrir Cartão de Ponto",
-            width=25,
-            height=2,
-            command=self.abrir_cartao
-        )
-        btn_cartao.pack(pady=10)
-
-        btn_sair = tk.Button(
-            self,
-            text="Sair",
-            width=25,
-            command=self.destroy
-        )
-        btn_sair.pack(pady=5)
-
-    def abrir_cartao(self):
-        CartaoView(self)
+    def report_callback_exception(self, exc_type, exc_value, exc_traceback):
+        logging.getLogger(__name__).error("Erro inesperado na interface", exc_info=(exc_type, exc_value, exc_traceback))
+        from tkinter import messagebox
+        messagebox.showerror("Erro inesperado", "Ocorreu um erro na interface. Consulte o arquivo de logs para detalhes.")

@@ -1,0 +1,7 @@
+.env
+__pycache__/
+.pytest_cache/
+input/scans/
+data/processed/
+data/lotes/
+logs/
